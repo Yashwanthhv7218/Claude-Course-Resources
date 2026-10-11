@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TWT AI Mastery - Workshop Feedback</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* Star rating styling */
+        .star-rating input { display: none; }
+        .star-rating label { cursor: pointer; color: #cbd5e1; font-size: 2rem; transition: color 0.2s; }
+        .star-rating label:hover, .star-rating label:hover ~ label, .star-rating input:checked ~ label { color: #fbbf24; }
+        .star-rating { display: flex; flex-direction: row-reverse; justify-content: flex-end; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <header class="bg-indigo-600 text-white shadow-md">
+        <div class="max-w-4xl mx-auto px-4 py-6">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h1 class="text-2xl font-bold tracking-tight">Tech Writer's Tribe</h1>
+                    <p class="text-indigo-200 text-sm mt-1">Share, Care and Prepare</p>
+                </div>
+                <div class="hidden sm:block text-right">
+                    <div class="text-sm font-medium bg-indigo-500 px-3 py-1 rounded-full">AI-Powered Documentation Mastery</div>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-4 mt-2">
+                <button id="nav-feedback" class="px-3 py-2 text-sm font-medium rounded-md bg-indigo-700 text-white hover:bg-indigo-500 transition-colors">Feedback Form</button>
+                <button id="nav-teams" class="px-3 py-2 text-sm font-medium rounded-md text-indigo-100 hover:bg-indigo-500 transition-colors">Team Selection</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+        <!-- Main Form Container -->
+        <div id="form-container" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="bg-slate-50 border-b border-slate-200 px-6 py-5">
+                <h2 class="text-xl font-semibold text-slate-800">Mid-Workshop Feedback & Project Planning</h2>
+                <p class="text-slate-500 text-sm mt-2">Welcome! Now that we have completed the first two days (Modules 1 & 2), we'd love to gather quick feedback from all 31 participants. Please also share the three projects you'd like to build and present over the next 6 weeks.</p>
+            </div>
+
+            <form id="feedback-form" class="p-6 space-y-8">
+                <!-- Personal Info -->
+                <div>
+                    <label for="participant-name" class="block text-sm font-medium text-slate-700">Your Name <span class="text-slate-400 font-normal">(Optional)</span></label>
+                    <input type="text" id="participant-name" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 border" placeholder="Jane Doe">
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Modules 1 & 2 Feedback -->
+                <div>
+                    <h3 class="text-lg font-medium text-slate-900 mb-4">Part 1: Feedback on Days 1 & 2</h3>
+                    
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">How would you rate the first two modules (Setup, AI Concepts & MCP)?</label>
+                        <div class="star-rating">
+                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">★</label>
+                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
+                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+                        </div>
+                        <p id="rating-error" class="text-red-500 text-xs mt-1 hidden">Please select a rating.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label for="feedback-positive" class="block text-sm font-medium text-slate-700">What did you find most valuable so far?</label>
+                            <textarea id="feedback-positive" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 border" placeholder="E.g., The explanation of the five prompt elements..."></textarea>
+                        </div>
+                        <div>
+                            <label for="feedback-improve" class="block text-sm font-medium text-slate-700">What could be improved for the remaining sessions?</label>
+                            <textarea id="feedback-improve" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 border" placeholder="E.g., More hands-on time during the VS Code setup..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-slate-100">
+
+                <!-- Project Planning -->
+                <div>
+                    <h3 class="text-lg font-medium text-slate-900 mb-1">Part 2: 6-Week Project Ideas</h3>
+                    <p class="text-sm text-slate-500 mb-4">To earn the TWT AI Documentation Practitioner certificate, you'll be building Claude Skills and an MCP server. What 3 projects or use-cases would you like to build and present by Module 8?</p>
+                    
+                    <div class="space-y-4 bg-indigo-50/50 p-4 rounded-lg border border-indigo-100">
+                        <div>
+                            <label for="project-1" class="block text-sm font-medium text-slate-700">Project Idea 1 <span class="text-red-500">*</span></label>
+                            <input type="text" id="project-1" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 border" placeholder="E.g., /release-notes skill for my company's API">
+                        </div>
+                        <div>
+                            <label for="project-2" class="block text-sm font-medium text-slate-700">Project Idea 2 <span class="text-red-500">*</span></label>
+                            <input type="text" id="project-2" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 border" placeholder="E.g., /doc-review skill checking against MS Manual of Style">
+                        </div>
+                        <div>
+                            <label for="project-3" class="block text-sm font-medium text-slate-700">Project Idea 3 <span class="text-red-500">*</span></label>
+                            <input type="text" id="project-3" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 border" placeholder="E.g., An MCP server that checks broken links in Markdown">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button & Messages -->
+                <div class="pt-4">
+                    <button type="submit" id="submit-btn" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                        <span id="submit-text">Submit Feedback & Projects</span>
+                        <div id="submit-spinner" class="spinner ml-2 hidden"></div>
+                    </button>
+                    <div id="auth-warning" class="text-amber-600 text-sm mt-3 text-center hidden">
+                        Connecting to secure storage... Please wait a moment.
+                    </div>
+                    <div id="error-message" class="text-red-600 text-sm mt-3 text-center hidden">
+                        An error occurred while saving. Please try again.
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Success Message Container -->
+        <div id="success-container" class="hidden bg-white rounded-xl shadow-sm border border-green-200 overflow-hidden text-center p-10">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Thank You!</h2>
+            <p class="text-slate-600 mb-6">Your feedback and project ideas have been successfully recorded. We look forward to seeing your AI integrations over the next 6 weeks!</p>
+            <button onclick="window.location.reload()" class="text-indigo-600 font-medium hover:text-indigo-800">Submit another response</button>
+        </div>
+
+        <!-- Admin Dashboard Container -->
+        <div id="admin-container" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+            <div class="bg-slate-800 px-6 py-5 flex justify-between items-center text-white">
+                <div>
+                    <h2 class="text-xl font-semibold">Instructor Dashboard</h2>
+                    <p class="text-slate-300 text-sm mt-1">Viewing all submitted responses</p>
+                </div>
+                <button id="close-admin-btn" class="text-slate-300 hover:text-white transition-colors">
+                    Close Dashboard
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="text-sm text-slate-500">
+                        Total Responses: <span id="response-count" class="font-bold text-slate-800">0</span> / 31
+                    </div>
+                    <button id="refresh-admin-btn" class="text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 py-1.5 px-3 rounded-md transition-colors flex items-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                        Refresh
+                    </button>
+                </div>
+
+                <div id="admin-loading" class="text-center py-10 text-slate-500">
+                    Loading responses...
+                </div>
+                
+                <div id="admin-results" class="space-y-6 hidden">
+                    <!-- Results will be injected here via JS -->
+                </div>
+                
+                <div id="admin-empty" class="hidden text-center py-10 bg-slate-50 rounded-lg border border-dashed border-slate-300 text-slate-500">
+                    No feedback has been submitted yet.
+                </div>
+            </div>
+        </div>
+
+        <!-- Team Selection Container -->
+        <div id="team-selection-container" class="hidden">
+            
+            <!-- User's Submitted Ideas (New Section) -->
+            <div id="user-ideas-section" class="bg-white shadow-sm border border-indigo-200 p-5 mb-6 rounded-xl">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0 mt-0.5">
+                        <svg class="h-5 w-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-semibold text-indigo-900 mb-2">Your Proposed Project Ideas</h3>
+                        <ul id="user-submitted-ideas" class="list-disc pl-5 text-sm text-indigo-700 space-y-1">
+                            <!-- Populated via JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Note to Participants -->
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded-r-md">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-blue-800">Project Team Assignment</h3>
+                        <div class="mt-2 text-sm text-blue-700">
+                            <p>Based on the ideas gathered, we have finalized the core projects. Please select the project team you wish to join for the remainder of the 6-week workshop. <strong>Maximum 10 members per team.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Selection Form -->
+            <div id="team-form-card" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                <div class="bg-slate-50 border-b border-slate-200 px-6 py-5">
+                    <h2 class="text-xl font-semibold text-slate-800">Join a Project Team</h2>
+                </div>
+                
+                <form id="team-form" class="p-6 space-y-6">
+                    <div>
+                        <label for="team-participant-name" class="block text-sm font-medium text-slate-700">Your Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="team-participant-name" required class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-4 py-2 border" placeholder="Enter your full name">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-3">Select Your Preferred Project</label>
+                        
+                        <div class="space-y-3" id="project-options-container">
+                            <!-- Loading State for Projects -->
+                            <div id="projects-loading" class="text-sm text-slate-500 italic py-2">Loading available teams...</div>
+                            
+                            <!-- Project 1 -->
+                            <div class="project-option relative flex items-start border border-slate-200 rounded-lg p-4 cursor-pointer hover:bg-slate-50 transition-colors hidden" data-project="doc-review">
+                                <div class="flex items-center h-5">
+                                    <input id="proj-doc-review" name="selected_project" type="radio" value="doc-review" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                </div>
+                                <div class="ml-3 flex-grow flex justify-between items-center">
+                                    <div>
+                                        <label for="proj-doc-review" class="font-medium text-slate-700 cursor-pointer block">Team 1: Multi-step /doc-review Skill</label>
+                                        <p class="text-slate-500 text-xs mt-1">Build an advanced skill checking against the MS Manual of Style.</p>
+                                    </div>
+                                    <div class="text-right ml-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 proj-count" data-project="doc-review">
+                                            0/10 Joined
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project 2 -->
+                            <div class="project-option relative flex items-start border border-slate-200 rounded-lg p-4 cursor-pointer hover:bg-slate-50 transition-colors hidden" data-project="mcp-checker">
+                                <div class="flex items-center h-5">
+                                    <input id="proj-mcp-checker" name="selected_project" type="radio" value="mcp-checker" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                </div>
+                                <div class="ml-3 flex-grow flex justify-between items-center">
+                                    <div>
+                                        <label for="proj-mcp-checker" class="font-medium text-slate-700 cursor-pointer block">Team 2: MCP Quality Checker Server</label>
+                                        <p class="text-slate-500 text-xs mt-1">Develop a production-grade MCP server to analyze markdown links.</p>
+                                    </div>
+                                    <div class="text-right ml-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 proj-count" data-project="mcp-checker">
+                                            0/10 Joined
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project 3 -->
+                            <div class="project-option relative flex items-start border border-slate-200 rounded-lg p-4 cursor-pointer hover:bg-slate-50 transition-colors hidden" data-project="api-release">
+                                <div class="flex items-center h-5">
+                                    <input id="proj-api-release" name="selected_project" type="radio" value="api-release" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                                </div>
+                                <div class="ml-3 flex-grow flex justify-between items-center">
+                                    <div>
+                                        <label for="proj-api-release" class="font-medium text-slate-700 cursor-pointer block">Team 3: /release-notes API Skill</label>
+                                        <p class="text-slate-500 text-xs mt-1">Create a reusable skill to auto-generate release notes from diffs.</p>
+                                    </div>
+                                    <div class="text-right ml-4">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 proj-count" data-project="api-release">
+                                            0/10 Joined
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p id="team-select-error" class="text-red-500 text-xs mt-2 hidden">Please select a project team.</p>
+                    </div>
+
+                    <div class="pt-2">
+                        <button type="submit" id="team-submit-btn" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span id="team-submit-text">Join Team</span>
+                            <div id="team-submit-spinner" class="spinner ml-2 hidden"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Team Rosters Display -->
+            <div id="team-roster-card" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hidden">
+                <div class="bg-slate-50 border-b border-slate-200 px-6 py-5 flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-slate-800">Current Team Rosters</h2>
+                    <span class="text-sm text-slate-500">Live Updates</span>
+                </div>
+                
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Roster 1 -->
+                    <div class="border border-slate-200 rounded-lg bg-slate-50 flex flex-col">
+                        <div class="p-3 border-b border-slate-200 bg-white rounded-t-lg">
+                            <h3 class="font-semibold text-sm text-indigo-700">Team 1: /doc-review</h3>
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-xs text-slate-500">Members</span>
+                                <span class="text-xs font-bold text-slate-700 roster-count" data-project="doc-review">0/10</span>
+                            </div>
+                        </div>
+                        <ul class="p-3 text-sm text-slate-600 space-y-2 flex-grow roster-list" data-project="doc-review">
+                            <li class="italic text-slate-400 text-xs">No members yet</li>
+                        </ul>
+                    </div>
+
+                    <!-- Roster 2 -->
+                    <div class="border border-slate-200 rounded-lg bg-slate-50 flex flex-col">
+                        <div class="p-3 border-b border-slate-200 bg-white rounded-t-lg">
+                            <h3 class="font-semibold text-sm text-indigo-700">Team 2: MCP Checker</h3>
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-xs text-slate-500">Members</span>
+                                <span class="text-xs font-bold text-slate-700 roster-count" data-project="mcp-checker">0/10</span>
+                            </div>
+                        </div>
+                        <ul class="p-3 text-sm text-slate-600 space-y-2 flex-grow roster-list" data-project="mcp-checker">
+                            <li class="italic text-slate-400 text-xs">No members yet</li>
+                        </ul>
+                    </div>
+
+                    <!-- Roster 3 -->
+                    <div class="border border-slate-200 rounded-lg bg-slate-50 flex flex-col">
+                        <div class="p-3 border-b border-slate-200 bg-white rounded-t-lg">
+                            <h3 class="font-semibold text-sm text-indigo-700">Team 3: /release-notes</h3>
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-xs text-slate-500">Members</span>
+                                <span class="text-xs font-bold text-slate-700 roster-count" data-project="api-release">0/10</span>
+                            </div>
+                        </div>
+                        <ul class="p-3 text-sm text-slate-600 space-y-2 flex-grow roster-list" data-project="api-release">
+                            <li class="italic text-slate-400 text-xs">No members yet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer with hidden Admin Toggle -->
+    <footer class="mt-auto py-6 border-t border-slate-200 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-4 text-center text-sm text-slate-500 flex justify-between items-center">
+            <span>&copy; Tech Writer's Tribe - AI Documentation Mastery</span>
+            <button id="open-admin-btn" class="text-slate-400 hover:text-indigo-600 transition-colors text-xs">View Responses (Admin)</button>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Environment variables provided by platform
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'twt-ai-mastery-default';
+        const configString = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
+        
+        // Fallback config for local testing if env vars are missing
+        let firebaseConfig = {};
+        try {
+            firebaseConfig = JSON.parse(configString);
+        } catch (e) {
+            console.warn("Could not parse firebase config. Storage might fail if not in platform.", e);
+        }
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        let isAuthReady = false;
+        
+        // App State
+        const MAX_TEAM_SIZE = 10;
+        let teamData = {
+            'doc-review': [],
+            'mcp-checker': [],
+            'api-release': []
+        };
+        let unsubscribeTeams = null;
+        let userFeedbackData = null;
+
+        // UI Elements
+        const form = document.getElementById('feedback-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const submitText = document.getElementById('submit-text');
+        const submitSpinner = document.getElementById('submit-spinner');
+        const authWarning = document.getElementById('auth-warning');
+        const errorMessage = document.getElementById('error-message');
+        const ratingError = document.getElementById('rating-error');
+        
+        const formContainer = document.getElementById('form-container');
+        const successContainer = document.getElementById('success-container');
+        const adminContainer = document.getElementById('admin-container');
+        
+        const openAdminBtn = document.getElementById('open-admin-btn');
+        const closeAdminBtn = document.getElementById('close-admin-btn');
+        const refreshAdminBtn = document.getElementById('refresh-admin-btn');
+        
+        const adminResults = document.getElementById('admin-results');
+        const adminLoading = document.getElementById('admin-loading');
+        const adminEmpty = document.getElementById('admin-empty');
+        const responseCount = document.getElementById('response-count');
+
+        // New UI Elements for Navigation & Teams
+        const navFeedbackBtn = document.getElementById('nav-feedback');
+        const navTeamsBtn = document.getElementById('nav-teams');
+        const teamSelectionContainer = document.getElementById('team-selection-container');
+        
+        const teamForm = document.getElementById('team-form');
+        const teamFormCard = document.getElementById('team-form-card');
+        const teamRosterCard = document.getElementById('team-roster-card');
+        const teamSubmitBtn = document.getElementById('team-submit-btn');
+        const teamSubmitText = document.getElementById('team-submit-text');
+        const teamSubmitSpinner = document.getElementById('team-submit-spinner');
+        const projectsLoading = document.getElementById('projects-loading');
+        const userSubmittedIdeas = document.getElementById('user-submitted-ideas');
+
+        // Listen for feedback to check if user has submitted
+        function listenToFeedback() {
+            if (!auth.currentUser) return;
+            const feedbackRef = collection(db, 'artifacts', appId, 'public', 'data', 'twt_feedback_v1');
+            
+            onSnapshot(feedbackRef, (snapshot) => {
+                let found = null;
+                snapshot.forEach(doc => {
+                    if (doc.data().userId === auth.currentUser.uid) {
+                        found = doc.data();
+                    }
+                });
+                userFeedbackData = found;
+            }, (error) => {
+                console.error("Error listening to feedback: ", error);
+            });
+        }
+
+        // Navigation Logic
+        function switchTab(tab) {
+            if (tab === 'feedback') {
+                navFeedbackBtn.className = "px-3 py-2 text-sm font-medium rounded-md bg-indigo-700 text-white hover:bg-indigo-500 transition-colors";
+                navTeamsBtn.className = "px-3 py-2 text-sm font-medium rounded-md text-indigo-100 hover:bg-indigo-500 transition-colors";
+                formContainer.classList.remove('hidden');
+                successContainer.classList.add('hidden'); // Reset success state when switching
+                teamSelectionContainer.classList.add('hidden');
+                adminContainer.classList.add('hidden');
+            } else if (tab === 'teams') {
+                if (!userFeedbackData) {
+                    // Prevent access if feedback is not submitted
+                    alert("Please submit your Feedback and Project Ideas first to unlock Team Selection.");
+                    return;
+                }
+
+                // Populate user's submitted ideas
+                if (userSubmittedIdeas && userFeedbackData.projects) {
+                    userSubmittedIdeas.innerHTML = userFeedbackData.projects.map(p => `<li>${escapeHTML(p)}</li>`).join('');
+                }
+
+                navTeamsBtn.className = "px-3 py-2 text-sm font-medium rounded-md bg-indigo-700 text-white hover:bg-indigo-500 transition-colors";
+                navFeedbackBtn.className = "px-3 py-2 text-sm font-medium rounded-md text-indigo-100 hover:bg-indigo-500 transition-colors";
+                formContainer.classList.add('hidden');
+                successContainer.classList.add('hidden');
+                teamSelectionContainer.classList.remove('hidden');
+                adminContainer.classList.add('hidden');
+                
+                // Start listening to team data if authenticated
+                if (isAuthReady && !unsubscribeTeams) {
+                    listenToTeamUpdates();
+                }
+            }
+        }
+
+        navFeedbackBtn.addEventListener('click', () => switchTab('feedback'));
+        navTeamsBtn.addEventListener('click', () => switchTab('teams'));
+
+        // Authenticate user anonymously to allow database writing on static page
+        async function authenticate() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                isAuthReady = true;
+                authWarning.classList.add('hidden');
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                
+                // Check user submission status
+                listenToFeedback();
+
+                // If on teams tab, start listening
+                if (!teamSelectionContainer.classList.contains('hidden')) {
+                    listenToTeamUpdates();
+                }
+            } catch (error) {
+                console.error("Authentication error:", error);
+                authWarning.textContent = "Unable to connect to database. Form submission disabled.";
+                authWarning.classList.remove('hidden', 'text-amber-600');
+                authWarning.classList.add('text-red-600');
+            }
+        }
+
+        // Disable button initially until auth is ready
+        submitBtn.disabled = true;
+        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        authWarning.classList.remove('hidden');
+        
+        // Start authentication
+        authenticate();
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate Rating
+            const ratingInput = document.querySelector('input[name="rating"]:checked');
+            if (!ratingInput) {
+                ratingError.classList.remove('hidden');
+                return;
+            }
+            ratingError.classList.add('hidden');
+
+            if (!isAuthReady || !auth.currentUser) {
+                errorMessage.textContent = "Still connecting to storage. Please wait a second and try again.";
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            // Set loading state
+            errorMessage.classList.add('hidden');
+            submitText.textContent = "Saving...";
+            submitSpinner.classList.remove('hidden');
+            submitBtn.disabled = true;
+
+            // Gather Data
+            const formData = {
+                name: document.getElementById('participant-name').value || 'Anonymous',
+                rating: parseInt(ratingInput.value),
+                feedbackPositive: document.getElementById('feedbackPositive') ? document.getElementById('feedbackPositive').value : document.getElementById('feedback-positive').value,
+                feedbackImprove: document.getElementById('feedbackImprove') ? document.getElementById('feedbackImprove').value : document.getElementById('feedback-improve').value,
+                projects: [
+                    document.getElementById('project-1').value,
+                    document.getElementById('project-2').value,
+                    document.getElementById('project-3').value
+                ],
+                submittedAt: serverTimestamp(),
+                userId: auth.currentUser.uid
+            };
+
+            try {
+                // Save to Firestore using strictly required path structure
+                const collectionName = 'twt_feedback_v1';
+                const feedbackRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
+                
+                await addDoc(feedbackRef, formData);
+                
+                // Update local state immediately so tab unlocks instantly without waiting for snapshot
+                userFeedbackData = formData;
+
+                // Show success UI
+                formContainer.classList.add('hidden');
+                successContainer.classList.remove('hidden');
+                form.reset();
+                
+            } catch (error) {
+                console.error("Error saving document: ", error);
+                errorMessage.textContent = "Failed to save feedback. Please check your connection.";
+                errorMessage.classList.remove('hidden');
+            } finally {
+                // Reset loading state
+                submitText.textContent = "Submit Feedback & Projects";
+                submitSpinner.classList.add('hidden');
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Team Selection Logic
+        
+        function updateTeamUI() {
+            projectsLoading.classList.add('hidden');
+            
+            // Check if current user has already joined a team
+            const currentUserId = auth.currentUser ? auth.currentUser.uid : null;
+            let userAlreadyJoined = false;
+            
+            Object.values(teamData).forEach(teamMembers => {
+                if (teamMembers.some(member => member.userId === currentUserId)) {
+                    userAlreadyJoined = true;
+                }
+            });
+
+            if (userAlreadyJoined) {
+                teamFormCard.classList.add('hidden');
+                teamRosterCard.classList.remove('hidden');
+            } else {
+                teamFormCard.classList.remove('hidden');
+                teamRosterCard.classList.remove('hidden'); // Show rosters so they can see who is where
+            }
+
+            ['doc-review', 'mcp-checker', 'api-release'].forEach(projId => {
+                const members = teamData[projId] || [];
+                const count = members.length;
+                const isFull = count >= MAX_TEAM_SIZE;
+
+                // Update Radio Options
+                const optionDiv = document.querySelector(`.project-option[data-project="${projId}"]`);
+                const radioInput = document.getElementById(`proj-${projId}`);
+                const countBadges = document.querySelectorAll(`.proj-count[data-project="${projId}"]`);
+                
+                if (optionDiv) {
+                    optionDiv.classList.remove('hidden');
+                    if (isFull) {
+                        optionDiv.classList.add('opacity-50', 'bg-slate-50');
+                        radioInput.disabled = true;
+                        if (radioInput.checked) radioInput.checked = false;
+                    } else {
+                        optionDiv.classList.remove('opacity-50', 'bg-slate-50');
+                        radioInput.disabled = false;
+                    }
+                }
+
+                // Update Count Badges
+                countBadges.forEach(badge => {
+                    badge.textContent = `${count}/${MAX_TEAM_SIZE} Joined`;
+                    if (isFull) {
+                        badge.classList.remove('bg-green-100', 'text-green-800');
+                        badge.classList.add('bg-red-100', 'text-red-800');
+                        badge.textContent = `Full (${count}/${MAX_TEAM_SIZE})`;
+                    } else {
+                        badge.classList.add('bg-green-100', 'text-green-800');
+                        badge.classList.remove('bg-red-100', 'text-red-800');
+                    }
+                });
+
+                // Update Rosters Lists
+                const rosterCount = document.querySelector(`.roster-count[data-project="${projId}"]`);
+                const rosterList = document.querySelector(`.roster-list[data-project="${projId}"]`);
+                
+                if (rosterCount) rosterCount.textContent = `${count}/${MAX_TEAM_SIZE}`;
+                
+                if (rosterList) {
+                    if (count === 0) {
+                        rosterList.innerHTML = `<li class="italic text-slate-400 text-xs">No members yet</li>`;
+                    } else {
+                        rosterList.innerHTML = members.map(m => `
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold mr-2 uppercase">
+                                    ${m.name.charAt(0)}
+                                </div>
+                                <span class="truncate" title="${escapeHTML(m.name)}">${escapeHTML(m.name)}</span>
+                            </li>
+                        `).join('');
+                    }
+                }
+            });
+        }
+
+        // Make project options clickable entirely
+        document.querySelectorAll('.project-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                const radio = option.querySelector('input[type="radio"]');
+                if (!radio.disabled && e.target !== radio) {
+                    radio.checked = true;
+                }
+                
+                // Style selection
+                document.querySelectorAll('.project-option').forEach(opt => opt.classList.remove('border-indigo-500', 'bg-indigo-50'));
+                if (!radio.disabled) {
+                    option.classList.add('border-indigo-500', 'bg-indigo-50');
+                    document.getElementById('team-select-error').classList.add('hidden');
+                }
+            });
+        });
+
+        // Listen for live updates to teams
+        function listenToTeamUpdates() {
+            if (!auth.currentUser) return;
+            
+            const collectionName = 'twt_teams_v1';
+            const teamsRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
+            
+            unsubscribeTeams = onSnapshot(teamsRef, (snapshot) => {
+                // Reset local state
+                teamData = {
+                    'doc-review': [],
+                    'mcp-checker': [],
+                    'api-release': []
+                };
+                
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.projectId && teamData[data.projectId]) {
+                        teamData[data.projectId].push({
+                            id: doc.id,
+                            name: data.name,
+                            userId: data.userId,
+                            joinedAt: data.joinedAt
+                        });
+                    }
+                });
+                
+                // Sort by join time
+                Object.keys(teamData).forEach(key => {
+                    teamData[key].sort((a, b) => {
+                        const timeA = a.joinedAt ? a.joinedAt.toMillis() : 0;
+                        const timeB = b.joinedAt ? b.joinedAt.toMillis() : 0;
+                        return timeA - timeB;
+                    });
+                });
+
+                updateTeamUI();
+            }, (error) => {
+                console.error("Error listening to teams: ", error);
+                projectsLoading.textContent = "Failed to load teams. Please refresh.";
+            });
+        }
+
+        // Handle Team Joining
+        teamForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const selectedProject = document.querySelector('input[name="selected_project"]:checked');
+            if (!selectedProject) {
+                document.getElementById('team-select-error').classList.remove('hidden');
+                return;
+            }
+
+            const projectId = selectedProject.value;
+            
+            // Double check capacity client-side before sending
+            if (teamData[projectId] && teamData[projectId].length >= MAX_TEAM_SIZE) {
+                alert("Sorry, this team just filled up. Please select another.");
+                return;
+            }
+
+            teamSubmitBtn.disabled = true;
+            teamSubmitText.textContent = "Joining...";
+            teamSubmitSpinner.classList.remove('hidden');
+
+            const joinData = {
+                name: document.getElementById('team-participant-name').value,
+                projectId: projectId,
+                userId: auth.currentUser.uid,
+                joinedAt: serverTimestamp()
+            };
+
+            try {
+                const collectionName = 'twt_teams_v1';
+                const teamsRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
+                await addDoc(teamsRef, joinData);
+                // Note: The UI will update automatically via onSnapshot listener
+            } catch (error) {
+                console.error("Error joining team:", error);
+                alert("Failed to join team. Please try again.");
+                teamSubmitBtn.disabled = false;
+                teamSubmitText.textContent = "Join Team";
+                teamSubmitSpinner.classList.add('hidden');
+            }
+        });
+
+
+        // Admin UI Toggles
+        openAdminBtn.addEventListener('click', () => {
+            formContainer.classList.add('hidden');
+            successContainer.classList.add('hidden');
+            adminContainer.classList.remove('hidden');
+            loadAdminData();
+        });
+
+        closeAdminBtn.addEventListener('click', () => {
+            adminContainer.classList.add('hidden');
+            formContainer.classList.remove('hidden');
+        });
+
+        refreshAdminBtn.addEventListener('click', loadAdminData);
+
+        // Fetch and display data
+        async function loadAdminData() {
+            if (!auth.currentUser) return;
+            
+            adminLoading.classList.remove('hidden');
+            adminResults.classList.add('hidden');
+            adminEmpty.classList.add('hidden');
+            adminResults.innerHTML = ''; // clear old data
+
+            try {
+                const collectionName = 'twt_feedback_v1';
+                const feedbackRef = collection(db, 'artifacts', appId, 'public', 'data', collectionName);
+                
+                // Note: According to rules, NO complex queries (no orderBy). Fetch all and sort in memory.
+                const querySnapshot = await getDocs(feedbackRef);
+                
+                const responses = [];
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    responses.push({ id: doc.id, ...data });
+                });
+
+                // Sort descending by time in memory
+                responses.sort((a, b) => {
+                    const timeA = a.submittedAt ? a.submittedAt.toMillis() : 0;
+                    const timeB = b.submittedAt ? b.submittedAt.toMillis() : 0;
+                    return timeB - timeA;
+                });
+
+                responseCount.textContent = responses.length;
+
+                if (responses.length === 0) {
+                    adminLoading.classList.add('hidden');
+                    adminEmpty.classList.remove('hidden');
+                    return;
+                }
+
+                // Render cards
+                responses.forEach((resp) => {
+                    const dateObj = resp.submittedAt ? resp.submittedAt.toDate() : new Date();
+                    const dateStr = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    const stars = '★'.repeat(resp.rating) + '☆'.repeat(5 - resp.rating);
+                    const starColor = resp.rating >= 4 ? 'text-green-500' : (resp.rating == 3 ? 'text-yellow-500' : 'text-red-500');
+
+                    const card = document.createElement('div');
+                    card.className = "bg-white border border-slate-200 rounded-lg p-5 shadow-sm";
+                    
+                    let projectsHtml = '';
+                    if (resp.projects && resp.projects.length > 0) {
+                        resp.projects.forEach((proj, idx) => {
+                            projectsHtml += `<li class="text-sm text-slate-700 bg-slate-50 p-2 rounded border border-slate-100 mb-1">${idx+1}. ${escapeHTML(proj)}</li>`;
+                        });
+                    }
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start mb-3 border-b border-slate-100 pb-3">
+                            <div>
+                                <h4 class="font-semibold text-slate-900">${escapeHTML(resp.name)}</h4>
+                                <p class="text-xs text-slate-500">${dateStr}</p>
+                            </div>
+                            <div class="text-lg ${starColor}" title="Rating: ${resp.rating}/5">${stars}</div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-1">Most Valuable</p>
+                                <p class="text-sm text-slate-700 whitespace-pre-wrap">${escapeHTML(resp.feedbackPositive || 'N/A')}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-amber-600 uppercase tracking-wide mb-1">Needs Improvement</p>
+                                <p class="text-sm text-slate-700 whitespace-pre-wrap">${escapeHTML(resp.feedbackImprove || 'N/A')}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Proposed Projects (Weeks 3-8)</p>
+                            <ul class="list-none m-0 p-0">
+                                ${projectsHtml}
+                            </ul>
+                        </div>
+                    `;
+                    adminResults.appendChild(card);
+                });
+
+                adminLoading.classList.add('hidden');
+                adminResults.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Error fetching admin data:", error);
+                adminLoading.innerHTML = `<span class="text-red-500">Failed to load responses. Permission denied or network error.</span>`;
+            }
+        }
+
+        // Helper to prevent XSS in admin dashboard
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
